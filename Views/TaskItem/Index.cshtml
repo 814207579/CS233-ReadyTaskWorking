@@ -12,6 +12,7 @@
             <tr>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Priority</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
                         @task.Title
                     </td>
                     <td>@task.Description</td>
+                    <td>@Enum.GetName(typeof(TaskItemPriority), task.PriorityId)</td>
 
                 </tr>
 

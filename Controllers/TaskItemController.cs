@@ -55,7 +55,7 @@ namespace ReadyTask.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Id,Title,Description,AssignedUserId")] TaskItem task)
+        public ActionResult Create([Bind("Id,Title,Description,AssignedUserId,PriorityId")] TaskItem task)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace ReadyTask.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind("Id,Title,Description,AssignedUserId,StatusId")] TaskItem task)
+        public ActionResult Edit([Bind("Id,Title,Description,AssignedUserId,StatusId,PriorityId")] TaskItem task)
         {
             if (ModelState.IsValid)
             {

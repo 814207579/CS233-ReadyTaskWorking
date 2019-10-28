@@ -16,10 +16,11 @@ namespace ReadyTask.Models
         public ReadyTaskUser AssignedUser { get; set; }
         public List<TaskReply> Replies { get; set; }
         public int StatusId { get; set; }
-
+        public int PriorityId { get; set; }
         public TaskItem()
         {
             this.StatusId = 1;
+            this.PriorityId = 0;
         }
 
     }

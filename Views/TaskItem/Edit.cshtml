@@ -55,6 +55,27 @@
                 }
             </select>
         </div>
+
+        <div class="form-group">
+            <label class="control-label">Priority</label>
+            <select class="form-control" asp-for="TaskItem.PriorityId" name="PriorityId">
+                @{
+                    var priorityIdList = Enum.GetValues(typeof(TaskItemPriority));
+                    foreach (int priorityId in priorityIdList)
+                    {
+                        if (Model.TaskItem.PriorityId == priorityId)
+                        {
+                            <option selected value="@priorityId">@Enum.GetName(typeof(TaskItemPriority), priorityId)</option>
+                        }
+                        else
+                        {
+                            <option value="@priorityId">@Enum.GetName(typeof(TaskItemPriority), priorityId)</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+
         <div class="form-group">
             <input type="submit" value="Edit" class="btn btn-default" />
         </div>

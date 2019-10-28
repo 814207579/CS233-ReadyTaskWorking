@@ -73,7 +73,8 @@ namespace ReadyTask.Data
                         Title = "Test Task 1",
                         Description  = "Description for Task 1",
                         AssignedUserId = null,
-                        StatusId = 0
+                        StatusId = 0,
+                        PriorityId = 0
                     },
                     new TaskItem
                     {
@@ -81,7 +82,8 @@ namespace ReadyTask.Data
                         Title = "Test Task 2",
                         Description  = "Description for Task 2",
                         AssignedUserId = null,
-                        StatusId = 1
+                        StatusId = 1,
+                        PriorityId = 1
                     },
                     new TaskItem
                     {
@@ -89,7 +91,8 @@ namespace ReadyTask.Data
                         Title = "Test Task 3",
                         Description  = "Description for Task 3",
                         AssignedUserId = 100,
-                        StatusId = 1
+                        StatusId = 1,
+                        PriorityId = 2
                     },
                 }
                 );

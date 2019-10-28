@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReadyTask.Data;
 
 namespace ReadyTask.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191028183914_addedMoreStuff")]
+    partial class addedMoreStuff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,7 +162,7 @@ namespace ReadyTask.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = 100, AccessFailedCount = 0, ConcurrencyStamp = "a4e3f2d1-ac14-4400-9e90-136242363fcd", Email = "test@test.com", EmailConfirmed = true, FirstName = "John", LastName = "Doe", LockoutEnabled = false, NormalizedEmail = "TEST@TEST.COM", NormalizedUserName = "TEST@TEST.COM", PasswordHash = "AQAAAAEAACcQAAAAENteEJAII9NgiTw3055CfVdV/VfkMsebE124HBvLywnGASxIKxez6861vqY/+v467w==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "test@test.com" }
+                        new { Id = 100, AccessFailedCount = 0, ConcurrencyStamp = "7eca5229-ffd0-4675-b34e-899378a97e10", Email = "test@test.com", EmailConfirmed = true, FirstName = "John", LastName = "Doe", LockoutEnabled = false, NormalizedEmail = "TEST@TEST.COM", NormalizedUserName = "TEST@TEST.COM", PasswordHash = "AQAAAAEAACcQAAAAEJ3MFCyfsyZBb+5tYtIZub78Vc2ZncKLWjfbmmwICpaGfdvld56eAJ5SKuEkfkhC+A==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "test@test.com" }
                     );
                 });
 
@@ -189,9 +191,9 @@ namespace ReadyTask.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = 1, ConcurrencyStamp = "3c0fc752-17af-4aa2-ad4f-937aeed3f837", Name = "Admin", NormalizedName = "ADMIN" },
-                        new { Id = 2, ConcurrencyStamp = "0ba371a0-37c7-41f9-aac8-891131c2590b", Name = "Manager", NormalizedName = "MANAGER" },
-                        new { Id = 3, ConcurrencyStamp = "e2fb0152-051b-4df8-9b19-48f853dc83bf", Name = "Dev", NormalizedName = "DEV" }
+                        new { Id = 1, ConcurrencyStamp = "510f6bed-adcc-46ee-b0d2-e91c868b38e7", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = 2, ConcurrencyStamp = "aa85c1c3-ca4c-4938-8c05-67984eb82a43", Name = "Manager", NormalizedName = "MANAGER" },
+                        new { Id = 3, ConcurrencyStamp = "28ac3802-318d-4ec7-90da-8a7f085d2ff4", Name = "Dev", NormalizedName = "DEV" }
                     );
                 });
 
