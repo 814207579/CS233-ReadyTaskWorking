@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ReadyTask.Migrations
 {
-    public partial class Initial : Migration
+    public partial class AddedUserRolls : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -165,7 +165,8 @@ namespace ReadyTask.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    AssignedUserId = table.Column<int>(nullable: true)
+                    AssignedUserId = table.Column<int>(nullable: true),
+                    StatusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -178,25 +179,53 @@ namespace ReadyTask.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TaskReplies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<string>(nullable: true),
+                    ReadyTaskUserId = table.Column<int>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: true),
+                    TaskItemId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskReplies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaskReplies_AspNetUsers_ReadyTaskUserId",
+                        column: x => x.ReadyTaskUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TaskReplies_TaskItems_TaskItemId",
+                        column: x => x.TaskItemId,
+                        principalTable: "TaskItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 100, 0, "e1b06a7b-47b6-40a9-8dd4-99bbc506a757", "test@test.com", true, "John", "Doe", false, null, "TEST@TEST.COM", "TEST@TEST.COM", "AQAAAAEAACcQAAAAEMxxUIAK5P838pkbx+Km6hGlFZWHIjvBKGI3v6V3RCc0jds1NzeSyJtQlPnbxl1KCw==", null, false, "", false, "test@test.com" });
+                values: new object[] { 100, 0, "1aba8369-2348-43c0-b013-7f3e81bc31ac", "test@test.com", true, "John", "Doe", false, null, "TEST@TEST.COM", "TEST@TEST.COM", "AQAAAAEAACcQAAAAEHQPKqoH16SzPfvTcD/KQA2Uix157BguSEaiZqas1DEWQ6F1DZ2EBZE4BJ+8fH7AxA==", null, false, "", false, "test@test.com" });
 
             migrationBuilder.InsertData(
                 table: "TaskItems",
-                columns: new[] { "Id", "AssignedUserId", "Description", "Title" },
-                values: new object[] { 100, null, "Description for Task 1", "Test Task 1" });
+                columns: new[] { "Id", "AssignedUserId", "Description", "StatusId", "Title" },
+                values: new object[] { 100, null, "Description for Task 1", 0, "Test Task 1" });
 
             migrationBuilder.InsertData(
                 table: "TaskItems",
-                columns: new[] { "Id", "AssignedUserId", "Description", "Title" },
-                values: new object[] { 101, null, "Description for Task 2", "Test Task 2" });
+                columns: new[] { "Id", "AssignedUserId", "Description", "StatusId", "Title" },
+                values: new object[] { 101, null, "Description for Task 2", 1, "Test Task 2" });
 
             migrationBuilder.InsertData(
                 table: "TaskItems",
-                columns: new[] { "Id", "AssignedUserId", "Description", "Title" },
-                values: new object[] { 102, 100, "Description for Task 3", "Test Task 3" });
+                columns: new[] { "Id", "AssignedUserId", "Description", "StatusId", "Title" },
+                values: new object[] { 102, 100, "Description for Task 3", 1, "Test Task 3" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -241,6 +270,16 @@ namespace ReadyTask.Migrations
                 name: "IX_TaskItems_AssignedUserId",
                 table: "TaskItems",
                 column: "AssignedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskReplies_ReadyTaskUserId",
+                table: "TaskReplies",
+                column: "ReadyTaskUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskReplies_TaskItemId",
+                table: "TaskReplies",
+                column: "TaskItemId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -261,10 +300,13 @@ namespace ReadyTask.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "TaskItems");
+                name: "TaskReplies");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "TaskItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

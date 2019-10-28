@@ -2,11 +2,12 @@
 
 
 <h2>Tasks</h2>
+<a asp-action="Create">Create Task</a>
 <br />
 
 @if (Model.Count() > 0)
 {
-    <table class="table table-hover">
+    <table class="table table-hover task-list">
         <thead>
             <tr>
                 <th>Title</th>
@@ -16,7 +17,7 @@
         <tbody>
             @foreach (TaskItem task in Model)
             {
-                <tr onclick="location.href='@Url.Action("Details","TaskItem", new {Id = task.Id })'">
+                <tr class="@Enum.GetName(typeof(TaskItemStatus), task.StatusId)" onclick="location.href='@Url.Action("Details","TaskItem", new {Id = task.Id })'">
                     <td>
                         @task.Title
                     </td>

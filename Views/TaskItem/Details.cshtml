@@ -20,6 +20,12 @@
     <dd>
         @Model.Description
     </dd>
+    <dt>
+        Status
+    </dt>
+    <dd>
+        @Enum.GetName(typeof(TaskItemStatus), Model.StatusId)
+    </dd>
     @if (Model.AssignedUser != null)
     {
         <dt>

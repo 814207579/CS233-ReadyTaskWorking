@@ -15,7 +15,7 @@ namespace ReadyTask.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -160,7 +160,7 @@ namespace ReadyTask.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = 100, AccessFailedCount = 0, ConcurrencyStamp = "0a0996b4-3d38-437b-a1c1-772443557dd2", Email = "test@test.com", EmailConfirmed = true, FirstName = "John", LastName = "Doe", LockoutEnabled = false, NormalizedEmail = "TEST@TEST.COM", NormalizedUserName = "TEST@TEST.COM", PasswordHash = "AQAAAAEAACcQAAAAEEaKU4GOszzVoKUjQzvnld5gPnO8l3c6jEQwnMr6JICs6yzymn+i9vEOSrLukBsRPA==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "test@test.com" }
+                        new { Id = 100, AccessFailedCount = 0, ConcurrencyStamp = "d0c8a597-693d-4a54-a915-3f7552536615", Email = "test@test.com", EmailConfirmed = true, FirstName = "John", LastName = "Doe", LockoutEnabled = false, NormalizedEmail = "TEST@TEST.COM", NormalizedUserName = "TEST@TEST.COM", PasswordHash = "AQAAAAEAACcQAAAAEIepqaZADZZ2wskuIj8oi0oD0ywRwopU5WYi0/F2Ro6yHyHY2FPEsjtPJ5fyabsQgA==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "test@test.com" }
                     );
                 });
 
@@ -187,6 +187,12 @@ namespace ReadyTask.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new { Id = 1, ConcurrencyStamp = "6555400d-bed4-4c59-81af-e36eae5657fd", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = 2, ConcurrencyStamp = "408e15ad-0bb0-4066-aacf-9eb6e6ea721a", Name = "Manager", NormalizedName = "MANAGER" },
+                        new { Id = 3, ConcurrencyStamp = "d7354c7c-0948-4d8c-9887-55b3f7166c05", Name = "Dev", NormalizedName = "DEV" }
+                    );
                 });
 
             modelBuilder.Entity("ReadyTask.Models.TaskItem", b =>
@@ -199,6 +205,8 @@ namespace ReadyTask.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<int>("StatusId");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -208,9 +216,9 @@ namespace ReadyTask.Migrations
                     b.ToTable("TaskItems");
 
                     b.HasData(
-                        new { Id = 100, Description = "Description for Task 1", Title = "Test Task 1" },
-                        new { Id = 101, Description = "Description for Task 2", Title = "Test Task 2" },
-                        new { Id = 102, AssignedUserId = 100, Description = "Description for Task 3", Title = "Test Task 3" }
+                        new { Id = 100, Description = "Description for Task 1", StatusId = 0, Title = "Test Task 1" },
+                        new { Id = 101, Description = "Description for Task 2", StatusId = 1, Title = "Test Task 2" },
+                        new { Id = 102, AssignedUserId = 100, Description = "Description for Task 3", StatusId = 1, Title = "Test Task 3" }
                     );
                 });
 

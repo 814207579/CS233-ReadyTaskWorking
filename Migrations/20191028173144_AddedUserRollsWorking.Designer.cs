@@ -10,14 +10,14 @@ using ReadyTask.Data;
 namespace ReadyTask.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191014171837_AddReplies")]
-    partial class AddReplies
+    [Migration("20191028173144_AddedUserRollsWorking")]
+    partial class AddedUserRollsWorking
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -162,7 +162,7 @@ namespace ReadyTask.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = 100, AccessFailedCount = 0, ConcurrencyStamp = "73a0d41e-33af-4e4b-9f8f-fabac2244ed3", Email = "test@test.com", EmailConfirmed = true, FirstName = "John", LastName = "Doe", LockoutEnabled = false, NormalizedEmail = "TEST@TEST.COM", NormalizedUserName = "TEST@TEST.COM", PasswordHash = "AQAAAAEAACcQAAAAEILQbTGhtjqtH5PVSQqBhFipeQoYD3ELwa01QntYgx1x5GhPybdW0dUauGUFnbhHqw==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "test@test.com" }
+                        new { Id = 100, AccessFailedCount = 0, ConcurrencyStamp = "c64d406e-4fc1-4b75-9012-e1cee1a37794", Email = "test@test.com", EmailConfirmed = true, FirstName = "John", LastName = "Doe", LockoutEnabled = false, NormalizedEmail = "TEST@TEST.COM", NormalizedUserName = "TEST@TEST.COM", PasswordHash = "AQAAAAEAACcQAAAAEJGT7INGmhqim5onmrZZ+0DbV9X7ieaVG8CKhS3uaRtD6Fhigrqi3IJn/Uxwx+r0ZA==", PhoneNumberConfirmed = false, SecurityStamp = "", TwoFactorEnabled = false, UserName = "test@test.com" }
                     );
                 });
 
@@ -189,6 +189,12 @@ namespace ReadyTask.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new { Id = 1, ConcurrencyStamp = "8e5f6782-f08c-4f5b-9b34-9611066240fa", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = 2, ConcurrencyStamp = "85ba82bc-4e54-4522-b8f5-277a39235a43", Name = "Manager", NormalizedName = "MANAGER" },
+                        new { Id = 3, ConcurrencyStamp = "e8d85f0f-aad4-43ee-acd9-4b8746be9656", Name = "Dev", NormalizedName = "DEV" }
+                    );
                 });
 
             modelBuilder.Entity("ReadyTask.Models.TaskItem", b =>
@@ -201,6 +207,8 @@ namespace ReadyTask.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<int>("StatusId");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -210,9 +218,9 @@ namespace ReadyTask.Migrations
                     b.ToTable("TaskItems");
 
                     b.HasData(
-                        new { Id = 100, Description = "Description for Task 1", Title = "Test Task 1" },
-                        new { Id = 101, Description = "Description for Task 2", Title = "Test Task 2" },
-                        new { Id = 102, AssignedUserId = 100, Description = "Description for Task 3", Title = "Test Task 3" }
+                        new { Id = 100, Description = "Description for Task 1", StatusId = 0, Title = "Test Task 1" },
+                        new { Id = 101, Description = "Description for Task 2", StatusId = 1, Title = "Test Task 2" },
+                        new { Id = 102, AssignedUserId = 100, Description = "Description for Task 3", StatusId = 1, Title = "Test Task 3" }
                     );
                 });
 
@@ -224,7 +232,7 @@ namespace ReadyTask.Migrations
 
                     b.Property<string>("Content");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime?>("DateCreated");
 
                     b.Property<int>("ReadyTaskUserId");
 

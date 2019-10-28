@@ -20,6 +20,30 @@ namespace ReadyTask.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<ReadyTaskUserRole>().HasData(
+                new ReadyTaskUserRole[]
+                {
+                    new ReadyTaskUserRole
+                    {
+                        Id = 1,
+                        Name = "Admin",
+                        NormalizedName = "Admin".ToUpper()
+                    },
+                    new ReadyTaskUserRole
+                    {
+                        Id = 2,
+                        Name = "Manager",
+                        NormalizedName = "Manager".ToUpper()
+                    },
+                    new ReadyTaskUserRole
+                    {
+                        Id = 3,
+                        Name = "Dev",
+                        NormalizedName = "Dev".ToUpper()
+                    }
+                }
+                );
+
             //Seeding Users
             var hasher = new PasswordHasher<ReadyTaskUser>();
             builder.Entity<ReadyTaskUser>().HasData(
@@ -48,21 +72,24 @@ namespace ReadyTask.Data
                         Id = 100,
                         Title = "Test Task 1",
                         Description  = "Description for Task 1",
-                        AssignedUserId = null
+                        AssignedUserId = null,
+                        StatusId = 0
                     },
                     new TaskItem
                     {
                         Id = 101,
                         Title = "Test Task 2",
                         Description  = "Description for Task 2",
-                        AssignedUserId = null
+                        AssignedUserId = null,
+                        StatusId = 1
                     },
                     new TaskItem
                     {
                         Id = 102,
                         Title = "Test Task 3",
                         Description  = "Description for Task 3",
-                        AssignedUserId = 100
+                        AssignedUserId = 100,
+                        StatusId = 1
                     },
                 }
                 );
