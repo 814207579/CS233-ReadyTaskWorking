@@ -1,0 +1,19 @@
+﻿@model AdminUserRoles
+
+@using Microsoft.AspNetCore.Identity
+@using ReadyTask.ViewModels
+@inject UserManager<ReadyTaskUser> UserManager
+
+<h1>User List</h1>
+
+@{
+    var roles = await UserManager.GetUserAsync(User);
+    foreach (ReadyTaskUser user in Model.ReadyTaskUsers)
+        {
+        <div class="form-group">
+            <label>@user.FirstName @user.LastName</label>
+
+            <select></select>
+        </div>
+        }
+}

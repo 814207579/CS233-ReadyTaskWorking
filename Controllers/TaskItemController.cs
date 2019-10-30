@@ -42,7 +42,7 @@ namespace ReadyTask.Controllers
         }
 
         // GET: TaskItem/Create
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Create()
         {
             TaskItemCreate viewModel = new TaskItemCreate();
@@ -52,9 +52,9 @@ namespace ReadyTask.Controllers
         }
 
         // POST: TaskItem/Create
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Create([Bind("Id,Title,Description,AssignedUserId,PriorityId")] TaskItem task)
         {
             if (ModelState.IsValid)
@@ -67,7 +67,7 @@ namespace ReadyTask.Controllers
         }
 
         // GET: TaskItem/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Edit(int id)
         {
             TaskItemCreate viewModel = new TaskItemCreate();
@@ -77,9 +77,9 @@ namespace ReadyTask.Controllers
         }
 
         // POST: TaskItem/Edit/5
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Edit([Bind("Id,Title,Description,AssignedUserId,StatusId,PriorityId")] TaskItem task)
         {
             if (ModelState.IsValid)
@@ -96,6 +96,7 @@ namespace ReadyTask.Controllers
 
         // GET: TaskItem/Delete/5
         [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Delete(int id)
         {
             return View();
@@ -105,6 +106,7 @@ namespace ReadyTask.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
@@ -118,7 +120,7 @@ namespace ReadyTask.Controllers
                 return View();
             }
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager,Dev")]
         public ActionResult CreateReply(string content, int taskId, int userId)
         {
             TaskReply reply = new TaskReply()
@@ -133,6 +135,7 @@ namespace ReadyTask.Controllers
             return RedirectToAction("Details", new { id = taskId });
         }
         [Authorize]
+        [Authorize(Roles = "Admin,Manager,Dev")]
         public CreateReplyResponse CreateReplyAjax(string content, int taskId, int userId)
         {
             TaskReply reply = new TaskReply()

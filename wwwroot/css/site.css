@@ -58,5 +58,8 @@ table.task-list tr.Open:hover {
     background-color: #4cff00;
 }
 table.task-list tr.Waiting {
-    background-color: #fccfcf;
+    background-color: #facdcd;
+}
+table.task-list tr.Waiting:hover {
+    background-color: #ff9999;
 }
