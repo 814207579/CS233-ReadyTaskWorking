@@ -61,6 +61,8 @@
                         <div>@Html.Raw(reply.Content)</div>
                         <div class="text-right">
                             @reply.ReadyTaskUser.FirstName @reply.ReadyTaskUser.LastName
+                            <!--added a way to show profile image-->
+                            <img class="reply-thumbnail"style="width: 35px; height: 35px;" src="~/images/uploads/@reply.ReadyTaskUser.ProfileImageName"/>
                             @if (reply.DateCreated.HasValue)
                             {
                                 <span> at @reply.DateCreated.Value.ToString("mm/dd/yy h:mm tt")</span>

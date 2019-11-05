@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +31,8 @@ namespace ReadyTask.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
-
+        //added a ProfileImageName property
+        public string ProfileImageName { get; set; }
         public bool IsEmailConfirmed { get; set; }
 
         [TempData]
@@ -47,6 +50,8 @@ namespace ReadyTask.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            
+            public IFormFile ProfileImage { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -62,6 +67,8 @@ namespace ReadyTask.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
+            //updated the ProfileImageName
+            ProfileImageName = user.ProfileImageName;
 
             Input = new InputModel
             {
@@ -109,10 +116,59 @@ namespace ReadyTask.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            //added stuff for profile image
+            var image = Input.ProfileImage;
+            if (image != null)
+            {
+                if (!String.IsNullOrEmpty(user.ProfileImageName))
+                {
+                    //updating/deleteing the pfp
+                    var checkPath = Path.Combine
+                        (
+                            Directory.GetCurrentDirectory(),
+                            "wwwroot\\images\\uploads",
+                            user.ProfileImageName
+                        );
+
+                    if (System.IO.File.Exists(checkPath))
+                    {
+                        System.IO.File.Delete(checkPath);
+                    }
+                }
+                
+
+
+                //makes a random file name for the pfps
+                var randomName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                //makes the file path
+                var filePath = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\images\\uploads",
+                        randomName
+                    );
+                //opens the filestream for writing the picture
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+
+                //add profile image to the user, that they have uploaded
+                var tempUser = user;
+                tempUser.ProfileImageName = randomName;
+                var updateResult = await _userManager.UpdateAsync(tempUser);
+                if (!updateResult.Succeeded)
+                {
+                    //throws an except if the image doesn't work correctly
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting profile image for user with ID '{userId}'.");
+                }
+            }
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+        
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
