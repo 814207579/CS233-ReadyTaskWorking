@@ -29,6 +29,28 @@ namespace ReadyTask.Controllers
             return View(allTasks);
         }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult Index(TaskItemFilters filters)
+        {
+            IQueryable<TaskItem> filteredTasks = _context.TaskItems.AsQueryable();
+            //make it not search by null if nothing is put into the search
+            //returns everything if tried to search by nothing
+            if(!string.IsNullOrEmpty(filters.Search))
+            {
+                //allows to run querries on iQueryable
+                filteredTasks = filteredTasks.Where(t => t.Title.Contains(filters.Search));
+            }
+            //added if for using the radio buttons
+            TaskItemStatus status;
+            if (Enum.TryParse(filters.Status, true, out status))
+            {
+                filteredTasks = filteredTasks.Where(t => t.StatusId == (int)status);
+            }
+            ViewBag.filters = filters;
+            return View(filteredTasks.ToList());
+        }
+
         // GET: TaskItem/Details/5
         [Authorize]
         public ActionResult Details(int id)

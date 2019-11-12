@@ -1,0 +1,7 @@
+~~~~~2019/11/8~~~~~
+- Added TaskItemFilters to Model Views
+- Updated TaskItemController to use TaskItemFilters
+	- Added new TaskITemController index() method using "TaskItemFilters"
+- Updated index to support changes to TaskITemController
+
+~~~~~2019/11/12~~~~~
